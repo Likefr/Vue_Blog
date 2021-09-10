@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,8 +17,9 @@ import java.util.Map;
 public class testController {
 
     @GetMapping("/test")    /*http://localhost:8080/test*/
+
     public JsonResult test() {
-        Map<String, Object> map = new HashMap<>();
+        List<>
         map.put("title", "第一个标题");
         map.put("date", new Date().toLocaleString());
         return JsonResult.success(map);
