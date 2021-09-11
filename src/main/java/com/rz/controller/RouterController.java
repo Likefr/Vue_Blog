@@ -12,6 +12,6 @@ public class RouterController {
 
     @RequestMapping("/")
     public String index(){
-        return "index";
+        return "/index";
     }
 }
