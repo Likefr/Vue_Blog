@@ -14,10 +14,9 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        System.out.println("wobeizhixinlr");
         //前者为访问请求 路径(requestMapping) 后者为页面文件名
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/index.html").setViewName("index");
     }
 
 

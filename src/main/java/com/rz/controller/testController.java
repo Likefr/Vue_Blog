@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class testController {
 
-    @GetMapping("/test")    /*http://localhost:8080/test*/
+    @GetMapping("/test")    /*http://localhost:8868/test*/
 
     public JsonResult test() {
         List<contents> list = new ArrayList<>();
