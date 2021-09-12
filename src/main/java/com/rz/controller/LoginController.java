@@ -3,7 +3,10 @@ package com.rz.controller;
 import com.rz.pojo.Users;
 import com.rz.util.JsonResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @version 1.0 2021/9/12
@@ -15,10 +18,10 @@ public class LoginController {
 
     @PostMapping("/login")
     @CrossOrigin//解决跨域
-    public JsonResult login(Users users) {
+    public JsonResult login(@RequestBody Users users) {
 /*
-          log.info("------> id " + users.getId());
-          log.info("------> email" + users.getEmail());
+          log.info("------> id " + users.getId()); //获取用户id
+          log.info("------> email" + users.getEmail());//获取用户邮件
 */
 
         log.info("------> username " + users.getUsername());

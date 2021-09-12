@@ -31,7 +31,7 @@ public class testController {
         list.add(new contents(8, "第8个标题", "内容ASjhgjghyDAS", "2021-10-05"));
     }
 
-    @GetMapping({"/", "/test"})    /*http://localhost:8868/test   Or  ../ */
+    @GetMapping("/test")    /*http://localhost:8868/test   Or  ../ */
     public JsonResult test() {
         return JsonResult.success(list);
     }
