@@ -19,6 +19,7 @@ public class JsonResult implements Serializable {
     private int code;
     private String msg;
     private Object data;
+
     /*
      * code 状态码
      * msg 返回消息
@@ -28,6 +29,11 @@ public class JsonResult implements Serializable {
         return success(200, "成功", data);
     }
 
+    public static JsonResult success(String msg, Object data) {
+        return success(200, msg, data);
+    }
+
+
     public static JsonResult success(int code, String msg, Object data) {
         JsonResult result = new JsonResult();
         result.setCode(code);
@@ -35,6 +41,7 @@ public class JsonResult implements Serializable {
         result.setData(data);
         return result;
     }
+
     public static JsonResult err(String msg) {
         return err(400, msg, null);
     }

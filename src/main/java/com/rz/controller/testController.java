@@ -38,10 +38,6 @@ public class testController {
 
 
 
-
-
-
-
 /*    @GetMapping("/archives/{id}.html")//获取文章
     public JsonResult archives(@PathVariable("id") int id) {
         contents contents = list.get(id);
