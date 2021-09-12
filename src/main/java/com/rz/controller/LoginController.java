@@ -15,9 +15,11 @@ public class LoginController {
 
     @PostMapping("/login")
     @CrossOrigin//解决跨域
-    public JsonResult login(@RequestBody Users users) {
-/*        log.info("------> id " + users.getId());
-        log.info("------> email" + users.getEmail());*/
+    public JsonResult login(Users users) {
+/*
+          log.info("------> id " + users.getId());
+          log.info("------> email" + users.getEmail());
+*/
 
         log.info("------> username " + users.getUsername());
         log.info("------> password " + users.getPassword());
