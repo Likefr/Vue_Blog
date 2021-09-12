@@ -16,11 +16,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JsonResult implements Serializable {
-
     private int code;
     private String msg;
     private Object data;
-
     /*
      * code 状态码
      * msg 返回消息
@@ -37,7 +35,6 @@ public class JsonResult implements Serializable {
         result.setData(data);
         return result;
     }
-
     public static JsonResult err(String msg) {
         return err(400, msg, null);
     }
