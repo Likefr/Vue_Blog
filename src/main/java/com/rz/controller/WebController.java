@@ -1,5 +1,6 @@
 package com.rz.controller;
 
+import com.rz.config.jwt.JwtUtil;
 import com.rz.entity.User;
 import com.rz.service.UserService;
 import com.rz.util.JsonResult;
@@ -15,7 +16,9 @@ public class WebController {
     @PostMapping("/login")
     @CrossOrigin
     public JsonResult login(@RequestBody User users) {
-        User user = userService.getUserByUsername(users.getUsername());
+        String username = users.getUsername();
+        String password = users.getPassword();
+        User user = userService.getUserByUsername(username);
         if (user == null) {
             return JsonResult.err("account not found");
         }
@@ -24,6 +27,6 @@ public class WebController {
             return JsonResult.err("invalid password");
         }
 
-        return JsonResult.success("login success", null);
+        return JsonResult.success("login success", JwtUtil.sign(username,password));
     }
 }
