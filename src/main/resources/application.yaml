@@ -5,3 +5,11 @@ spring:
     url: jdbc:mysql://localhost:3306/likefr_vue_blog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+  mvc:
+    # 允许访问static文件目录
+    static-path-pattern: /static/**
+server:
+  port: 8868
+
+
+

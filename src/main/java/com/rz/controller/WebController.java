@@ -4,9 +4,7 @@ import com.rz.entity.User;
 import com.rz.service.UserService;
 import com.rz.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WebController {
@@ -15,16 +13,17 @@ public class WebController {
     UserService userService;
 
     @PostMapping("/login")
-    public JsonResult login(@RequestParam String username,@RequestParam String password){
-        User user = userService.getUserByUsername(username);
-        if(user == null){
+    @CrossOrigin
+    public JsonResult login(@RequestBody User users) {
+        User user = userService.getUserByUsername(users.getUsername());
+        if (user == null) {
             return JsonResult.err("account not found");
         }
 
-        if(!user.getPassword().equals(password)){
+        if (!user.getPassword().equals(users.getPassword())) {
             return JsonResult.err("invalid password");
         }
 
-        return JsonResult.success("login success");
+        return JsonResult.success("login success", null);
     }
 }
