@@ -5,7 +5,10 @@ import com.rz.entity.User;
 import com.rz.service.UserService;
 import com.rz.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WebController {
@@ -22,11 +25,11 @@ public class WebController {
         if (user == null) {
             return JsonResult.err("account not found");
         }
-
         if (!user.getPassword().equals(users.getPassword())) {
             return JsonResult.err("invalid password");
         }
-
+        System.out.println("Login success Token :" + JwtUtil.sign(username,password));
         return JsonResult.success("login success", JwtUtil.sign(username,password));
     }
+
 }

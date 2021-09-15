@@ -7,7 +7,7 @@ spring:
     password: 123456
   mvc:
     # 允许访问static文件目录
-    static-path-pattern: /static/**
+    static-path-pattern: /**
 server:
   port: 8868
 
