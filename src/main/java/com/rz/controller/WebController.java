@@ -2,7 +2,7 @@ package com.rz.controller;
 
 import com.rz.config.jwt.JwtUtil;
 import com.rz.entity.User;
-import com.rz.service.UserService;
+import com.rz.service.impl.UserServiceImpl;
 import com.rz.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @PostMapping("/login")
     @CrossOrigin
