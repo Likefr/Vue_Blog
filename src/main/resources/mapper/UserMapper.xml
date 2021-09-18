@@ -3,6 +3,13 @@
 <mapper namespace="com.rz.mapper.UserMapper">
 
     <select id="getUserByUsername" resultType="com.rz.entity.User">
-        SELECT * FROM t_user WHERE username = #{username};
+        SELECT *
+        FROM t_user
+        WHERE username = #{username};
+    </select>
+
+
+    <select id="queryAllUser" resultType="com.rz.entity.User">
+        SELECT user_id, nickname, email, enable_flag, create_date FROM t_user
     </select>
 </mapper>

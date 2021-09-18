@@ -1,7 +1,9 @@
 package com.rz.service;
 
-import com.rz.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rz.entity.User;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
     User getUserByUsername(String username);
+
+    List<User> queryAllUser();
 }
