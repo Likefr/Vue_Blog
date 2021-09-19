@@ -22,8 +22,6 @@ public class AdminController {
     ArticleMapper articleMapper;
     @Autowired
     UserServiceImpl userService;
-
-
     @PostMapping("/login")
     @CrossOrigin
     public JsonResult login(@RequestBody User users) {
