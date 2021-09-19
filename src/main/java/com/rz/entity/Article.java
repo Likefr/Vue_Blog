@@ -39,7 +39,7 @@ public class Article implements Serializable {
     /**
      * 文章作者
      */
-    private String author;
+    private int author;
 
     /**
      * 文章标题
