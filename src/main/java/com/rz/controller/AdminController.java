@@ -9,7 +9,9 @@ import com.rz.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version 1.0 2021/9/16
@@ -22,6 +24,7 @@ public class AdminController {
     ArticleMapper articleMapper;
     @Autowired
     UserServiceImpl userService;
+
     @PostMapping("/login")
     @CrossOrigin
     public JsonResult login(@RequestBody User users) {
@@ -34,13 +37,24 @@ public class AdminController {
         if (!user.getPassword().equals(users.getPassword())) {
             return JsonResult.err("invalid password");
         }
-        System.out.println("Login success Token :" + JwtUtil.sign(username,password));
-        return JsonResult.success("login success", JwtUtil.sign(username,password));
+        System.out.println("Login success Token :" + JwtUtil.sign(username, password));
+        Map<String, String> list = new HashMap<>();
+        list.put("JWT", JwtUtil.sign(username, password));
+        list.put("user", users.getUsername());
+        return JsonResult.success("login success", list);
     }
 
     @RequestMapping("/getArticle")  //获取所有文章
+    @CrossOrigin
     public JsonResult getArticle() {
         List<Article> articles = articleMapper.selectList(null);
         return JsonResult.success(articles);
+    }
+
+    @GetMapping("/queryAllUser")
+    @CrossOrigin
+    public JsonResult queryAllUser() {
+        List<User> users = userService.queryAllUser();
+        return JsonResult.success(users);
     }
 }
