@@ -1,35 +1,27 @@
 package com.rz.service.impl;
 
-import com.rz.entity.User;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rz.entity.UserVo;
 import com.rz.mapper.UserMapper;
 import com.rz.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
- * 服务实现类
+ *  服务实现类
  * </p>
  *
  * @author Likefr Vue Blog
- * @since 2021-09-13
+ * @since 2022-05-29
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserVo> implements UserService {
     @Autowired
     UserMapper userMapper;
-
     @Override
-    public User getUserByUsername(String username) {
-        return userMapper.getUserByUsername(username);
-    }
-
-    @Override
-    public List<User> queryAllUser() {
-        return userMapper.queryAllUser();
+    public IPage<UserVo> queryUserList(IPage<UserVo> page) {
+        return userMapper.queryUserList(page);
     }
 }

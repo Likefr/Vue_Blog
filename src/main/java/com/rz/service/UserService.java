@@ -1,9 +1,8 @@
 package com.rz.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rz.entity.User;
-
-import java.util.List;
+import com.rz.entity.UserVo;
 
 /**
  * <p>
@@ -11,10 +10,8 @@ import java.util.List;
  * </p>
  *
  * @author Likefr Vue Blog
- * @since 2021-09-13
+ * @since 2022-05-29
  */
-public interface UserService extends IService<User> {
-    User getUserByUsername(String username);
-
-    List<User> queryAllUser();
+public interface UserService extends IService<UserVo> {
+    public IPage<UserVo> queryUserList(IPage<UserVo> page);
 }

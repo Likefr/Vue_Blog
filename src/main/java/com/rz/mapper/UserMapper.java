@@ -1,10 +1,10 @@
 package com.rz.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.rz.entity.UserVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rz.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -12,11 +12,11 @@ import java.util.List;
  * </p>
  *
  * @author Likefr Vue Blog
- * @since 2021-09-13
+ * @since 2022-05-29
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
-    User getUserByUsername(String username);
-    //查询所有用户   --分页 todo
-    List<User> queryAllUser();
+@Repository
+public interface UserMapper extends BaseMapper<UserVo> {
+
+    IPage<UserVo> queryUserList(IPage<UserVo> page);
 }

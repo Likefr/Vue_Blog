@@ -1,96 +1,63 @@
 package com.rz.config.shiro;
 
-import com.rz.config.jwt.JwtFilter;
-import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
-import org.apache.shiro.mgt.DefaultSubjectDAO;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rz.entity.ResultBean;
+import com.rz.entity.ResultBeanEnum;
+import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * ClassName:    ShiroConfig
- * Description:  TODO
- * Author:       WangFZ
- * Date:         2021/9/13
- * Version:      1.0
- **/
-@Configuration
+//@Configuration
 public class ShiroConfig {
-    @Bean("securityManager")
-    public DefaultWebSecurityManager getManager(CustomRealm realm) {
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("dwsm") DefaultSecurityManager dsm){
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(dsm);
+        Map<String,String> StringMap = new LinkedHashMap<>();
+        StringMap.put("/user/doLogin","anon");
+        StringMap.put("/**","authc");
+
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("authc", new ShiroUserFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(StringMap);
+
+        return shiroFilterFactoryBean;
+
+    }
+    @Bean(name = "dwsm")
+    public DefaultWebSecurityManager defaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        // 使用自己的realm
-        manager.setRealm(realm);
-
-        /*
-         * 关闭shiro自带的session，详情见文档
-         * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
-         */
-        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
-        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
-        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
-        manager.setSubjectDAO(subjectDAO);
-
+        manager.setRealm(userRealm);
         return manager;
     }
 
-    @Bean("shiroFilter")
-    public ShiroFilterFactoryBean factory(DefaultWebSecurityManager securityManager) {
-        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-
-        // 添加自己的过滤器并且取名为jwt
-        Map<String, Filter> filterMap = new HashMap<>();
-        filterMap.put("jwt", new JwtFilter());
-        factoryBean.setFilters(filterMap);
-
-        factoryBean.setSecurityManager(securityManager);
-        factoryBean.setUnauthorizedUrl("/401");
-
-        /*
-         * 自定义url规则
-         * http://shiro.apache.org/web.html#urls-
-         */
-        Map<String, String> filterRuleMap = new HashMap<>();
-        // 所有请求通过我们自己的JWT Filter
-        filterRuleMap.put("/**", "jwt");
-        // 访问401和404页面不通过我们的Filter
-        filterRuleMap.put("/401", "anon");
-        factoryBean.setFilterChainDefinitionMap(filterRuleMap);
-        return factoryBean;
+    @Bean(name = "userRealm")
+    public UserRealm userRealm(){
+        return  new UserRealm();
     }
+}
 
-    /**
-     * 下面的代码是添加注解支持
-     */
-    @Bean
-    @DependsOn("lifecycleBeanPostProcessor")
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        // 强制使用cglib，防止重复代理和可能引起代理出错的问题
-        // https://zhuanlan.zhihu.com/p/29161098
-        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
-        return defaultAdvisorAutoProxyCreator;
-    }
+class ShiroUserFilter extends UserFilter {
+    @Override
+    protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
 
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
+        response.setContentType("application/json; charset=utf-8");//返回json
+        OutputStream os = response.getOutputStream();
+        os.write(new ObjectMapper().writeValueAsString(ResultBean.error(ResultBeanEnum.NOLOGIN_ERROR)).getBytes("UTF-8"));
+        os.flush();
+        os.close();
 
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
-        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-        advisor.setSecurityManager(securityManager);
-        return advisor;
     }
 }
