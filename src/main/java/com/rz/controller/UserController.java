@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rz.entity.ResultBean;
 import com.rz.entity.ResultBeanEnum;
-import com.rz.entity.UserVo;
+import com.rz.entity.User;
 import com.rz.mapper.UserMapper;
 import com.rz.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
     @Autowired
     UserMapper userMapper;
@@ -29,9 +30,9 @@ public class UserController {
     UserServiceImpl userService;
 //    添加 or 注册用户
     @PostMapping("/addUser")
-    public ResultBean addUser(UserVo userData) {
-        QueryWrapper<UserVo> wrapper = new QueryWrapper<UserVo>().select("username").eq("username", userData.getUsername());
-        UserVo user = userMapper.selectOne(wrapper);
+    public ResultBean addUser(User userData) {
+        QueryWrapper<User> wrapper = new QueryWrapper<User>().select("username").eq("username", userData.getUsername());
+        User user = userMapper.selectOne(wrapper);
         if (user != null) {
             return ResultBean.error(ResultBeanEnum.USER_EXISTS_ERROR);
         }
@@ -53,8 +54,8 @@ public class UserController {
     }
     // 修改用户信息
     @PostMapping("/updateUser")
-        public ResultBean updateUser(UserVo userVo) {
-        int i = userMapper.updateById(userVo);
+        public ResultBean updateUser(User user) {
+        int i = userMapper.updateById(user);
         if (i > 0 ) {
             return ResultBean.success();
         }
@@ -62,10 +63,22 @@ public class UserController {
     }
     // 分页查询
     @PostMapping("/queryUserList")
+    @CrossOrigin
+//    @ResponseBody
     public ResultBean queryUserList (@RequestParam(defaultValue = "1") Integer currentPage,
                                      @RequestParam(defaultValue = "5") Integer size) {
-        Page<UserVo> page = new Page(currentPage, size);
-        IPage<UserVo> userVoIPage = userService.queryUserList(page);
+        Page<User> page = new Page(currentPage, size);
+        IPage<User> userVoIPage = userService.queryUserList(page);
+
         return ResultBean.success(userVoIPage);
+    }
+    @PostMapping("/queryById/{id}")
+    public ResultBean queryById(@PathVariable("id") long id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            return ResultBean.error(ResultBeanEnum.USER_NOEXISTS_ERROR);
+        }
+        user.setSalt(null);
+        return ResultBean.success(user);
     }
 }

@@ -1,5 +1,16 @@
 #DataSource Config
 spring:
+  redis:
+    host: 192.168.10.104
+    port: 6379
+    database: 0
+    connect-timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 10000ms
+        max-idle: 200
+        min-idle: 0
   thymeleaf:
     cache: false
   datasource:
@@ -12,6 +23,8 @@ spring:
   mvc:
     # 允许访问static文件目录
     static-path-pattern: /**     # /static/** 404
+
+
 server:
   port: 8868
   compression:
@@ -22,5 +35,11 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.rz.entity
 
-#logging:
-#  level: debug
+logging:
+  level:
+   com.rz: debug
+
+encrypt:
+  body:
+    aes-key: 1234567887654321 #AES加密秘钥
+    des-key: 12345678 #DES加密秘钥

@@ -2,7 +2,10 @@ package com.rz.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rz.entity.UserVo;
+import com.rz.entity.User;
+import com.rz.vo.LoginVo;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -12,6 +15,8 @@ import com.rz.entity.UserVo;
  * @author Likefr Vue Blog
  * @since 2022-05-29
  */
-public interface UserService extends IService<UserVo> {
-    public IPage<UserVo> queryUserList(IPage<UserVo> page);
+public interface UserService extends IService<User> {
+    public IPage<User> queryUserList(IPage<User> page);
+    User doLogin(HttpServletResponse response, LoginVo loginVo);
+    User getUserByCookie(HttpServletResponse response,String userTicket);
 }

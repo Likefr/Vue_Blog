@@ -1,8 +1,8 @@
 package com.rz.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rz.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.rz.entity.TypechoContents;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +12,10 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author Likefr Vue Blog
- * @since 2022-05-29
+ * @since 2022-06-05
  */
 @Mapper
 @Repository
-public interface UserMapper extends BaseMapper<User> {
-
-    IPage<User> queryUserList(IPage<User> page);
+public interface TypechoContentsMapper extends BaseMapper<TypechoContents> {
+    IPage<TypechoContents> queryContents(IPage<TypechoContents> page);
 }

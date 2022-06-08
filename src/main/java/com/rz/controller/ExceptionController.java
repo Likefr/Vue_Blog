@@ -6,7 +6,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * Date:         2021/9/13
  * Version:      1.0
  **/
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ExceptionController {
     // 捕捉shiro的异常
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

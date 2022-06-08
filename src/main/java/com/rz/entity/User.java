@@ -23,7 +23,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @TableName("t_user")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserVo implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,6 +62,7 @@ public class UserVo implements Serializable {
      * 随机盐
      */
     private String salt;
+    private String per;
 
 
 }
